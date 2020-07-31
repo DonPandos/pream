@@ -1,6 +1,7 @@
 package org.donpandos.preamauthserver.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.donpandos.preamauthserver.entity.Status;
 import org.donpandos.preamauthserver.entity.User;
 import org.donpandos.preamauthserver.security.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +23,18 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetailsImpl loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userService.findByUsername(username);
-        UserDetailsImpl result = new UserDetailsImpl(user.getId(), user.getUsername(), user.getPassword(), user.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList()));
+
         if(user == null){
             throw new UsernameNotFoundException("User with username: " + username + " not found");
         }
+
+        UserDetailsImpl result = new UserDetailsImpl(
+                user.getId(),
+                user.getUsername(),
+                user.getPassword(),
+                user.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList()),
+                user.getStatus().equals(Status.ACTIVE)
+        );
 
         log.info("User with username " + username + " successfully loaded");
         return result;

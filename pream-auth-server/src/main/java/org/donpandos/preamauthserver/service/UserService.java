@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.donpandos.preamauthserver.entity.User;
 import org.donpandos.preamauthserver.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service

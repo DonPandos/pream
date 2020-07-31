@@ -1,6 +1,7 @@
 package org.donpandos.preamauthserver.security;
 
 import lombok.Data;
+import org.donpandos.preamauthserver.entity.Status;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -12,12 +13,14 @@ public class UserDetailsImpl implements UserDetails {
     private final String username;
     private final String password;
     private final Collection<GrantedAuthority> authorities;
+    public boolean enabled;
 
-    public UserDetailsImpl(Long id, String username, String password, Collection<GrantedAuthority> authorities) {
+    public UserDetailsImpl(Long id, String username, String password, Collection<GrantedAuthority> authorities, boolean enabled) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.authorities = authorities;
+        this.enabled = enabled;
     }
 
     @Override
@@ -52,6 +55,6 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
     }
 }
